@@ -46,6 +46,8 @@ export const DayLights: React.FC<{ sun?: [number, number, number]; intensity?: n
       shadow-radius={4}
     />
     <directionalLight position={[-8, 5, 10]} intensity={0.6} color="#BFE3FF" />
+    {/* tegenlicht: laat de randen van de figuren oplichten (filmlook) */}
+    <directionalLight position={[-4, 7, -12]} intensity={2.2} color="#FFFFFF" />
   </>
 );
 

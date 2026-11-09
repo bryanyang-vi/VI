@@ -2,6 +2,8 @@ import { Composition } from "remotion";
 import { EPISODE_DURATION, Episode } from "./Episode";
 import { FPS } from "./theme";
 import {
+  KF0Personages,
+  KF7Closeup,
   KF1Team,
   KF2Alarm,
   KF3IkDoe,
@@ -11,6 +13,8 @@ import {
 } from "./keyframes/Keyframes";
 
 const KEYFRAMES = [
+  { id: "KF0-Personages", component: KF0Personages },
+  { id: "KF7-Closeup", component: KF7Closeup },
   { id: "KF1-Team", component: KF1Team },
   { id: "KF2-Alarm", component: KF2Alarm },
   { id: "KF3-IkDoe", component: KF3IkDoe },

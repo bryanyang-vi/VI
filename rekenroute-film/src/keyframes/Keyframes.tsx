@@ -395,8 +395,8 @@ export const KF1Team: React.FC = () => (
     <Tree position={[14, 0, -14]} s={1.4} color="#4CAA3F" />
     {/* de ploeg */}
     <Bollobo3D look={LOOKS.vlug} position={[-2.2, 0.35, 1.2]} rotationY={0.25} armR={2.7} armL={0.5} mouth="open" tilt={0.08} />
-    <Bollobo3D look={LOOKS.wijs} position={[0.3, 0, 0.6]} rotationY={0} armL={0.4} armR={2.1} mouth="smile" lookX={0.4} />
-    <Bollobo3D look={LOOKS.pimpel} position={[2.3, 0.5, 1.6]} rotationY={-0.3} scale={0.75} armL={2.6} armR={2.6} mouth="open" />
+    <Bollobo3D look={LOOKS.wijs} position={[0.3, 0, 0.6]} rotationY={0} armL={0.4} armR={2.1} mouth="smile" brows="up" lookX={0.4} />
+    <Bollobo3D look={LOOKS.pimpel} position={[2.3, 0.5, 1.6]} rotationY={-0.3} scale={0.75} armL={2.6} armR={2.6} mouth="grin" />
   </Frame>
 );
 
@@ -524,7 +524,7 @@ export const KF2Alarm: React.FC = () => (
       <meshStandardMaterial color="#8FD3FF" emissive="#6CC0F5" emissiveIntensity={0.5} />
     </mesh>
     <Bollobo3D look={LOOKS.vlug} position={[-2.6, 0, 1.4]} rotationY={0.35} armL={2.4} armR={2.4} mouth="o" brows="worried" lookX={0.5} lookY={0.6} />
-    <Bollobo3D look={LOOKS.wijs} position={[0.4, 0, 0.6]} rotationY={-0.2} lean={-0.15} armL={0.6} armR={1.2} mouth="flat" brows="determined" lookY={0.8} />
+    <Bollobo3D look={LOOKS.wijs} position={[0.4, 0, 0.6]} rotationY={-0.2} lean={-0.15} armL={0.6} armR={1.2} mouth="o" brows="worried" lids="wide" lookY={0.8} />
     <Bollobo3D look={LOOKS.pimpel} position={[2.8, 0, 1.8]} rotationY={-0.5} scale={0.75} armL={1.8} armR={1.8} mouth="o" lookY={0.7} lookX={-0.4} />
   </Frame>
 );
@@ -680,5 +680,58 @@ export const KF6JijDoet: React.FC = () => (
     <Bollobo3D look={LOOKS.vlug} position={[-2.8, 0, 2.2]} rotationY={0.3} lean={-0.3} scale={0.85} armL={0.3} armR={1.0} mouth="o" lookY={1} />
     <Bollobo3D look={LOOKS.wijs} position={[0, 0, 2.8]} rotationY={0} lean={-0.25} scale={0.85} armL={0.4} armR={1.9} mouth="smile" lookY={1} />
     <Bollobo3D look={LOOKS.pimpel} position={[2.6, 0, 2.4]} rotationY={-0.3} lean={-0.35} scale={0.65} armL={2.5} armR={2.5} mouth="open" lookY={1} />
+  </Frame>
+);
+
+/* ------------------------------------------------------------------ */
+/* KF0 — Personageblad: de ploeg naast elkaar                           */
+/* ------------------------------------------------------------------ */
+const NameTag: React.FC<{ left: string; name: string; role: string; color: string }> = ({ left, name, role, color }) => (
+  <div style={{ position: "absolute", left, bottom: 110, transform: "translateX(-50%)", textAlign: "center", fontFamily }}>
+    <div style={{ fontSize: 64, fontWeight: 700, color: "white", WebkitTextStroke: `7px ${color}`, paintOrder: "stroke fill" }}>{name}</div>
+    <div style={{ fontSize: 34, fontWeight: 600, color: COLORS.ink, background: "white", borderRadius: 20, padding: "4px 22px", marginTop: 4 }}>{role}</div>
+  </div>
+);
+
+export const KF0Personages: React.FC = () => (
+  <Frame
+    sky="radial-gradient(circle at 50% 40%, #FFFFFF, #DCEBFF 70%)"
+    caption="Personageblad · werkversie, wordt aangepast aan de officiële Bollobo's"
+    overlay={
+      <>
+        <NameTag left="23%" name="Vlug" role="de doener" color="#B3302A" />
+        <NameTag left="50%" name="Wijs" role="de denker" color="#2252A8" />
+        <NameTag left="76%" name="Pimpel" role="de speurneus" color="#4F8A15" />
+      </>
+    }
+  >
+    <CameraRig position={[0, 2.2, 11]} target={[0, 1.6, 0]} fov={34} />
+    <hemisphereLight args={["#FFFFFF", "#B9C8E0", 1.2]} />
+    <directionalLight position={[5, 9, 8]} intensity={2.6} color="#FFF4E2" castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} />
+    <directionalLight position={[-6, 4, 6]} intensity={0.8} color="#CFE6FF" />
+    <directionalLight position={[0, 6, -10]} intensity={2.5} color="#FFFFFF" />
+    <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+      <circleGeometry args={[9, 64]} />
+      <shadowMaterial opacity={0.18} />
+    </mesh>
+    <Bollobo3D look={LOOKS.vlug} position={[-3.3, 0, 0]} rotationY={0.25} armL={0.4} armR={2.5} mouth="grin" brows="up" lookX={0.2} />
+    <Bollobo3D look={LOOKS.wijs} position={[0, 0, -0.4]} rotationY={0} armL={0.3} armR={1.3} mouth="smile" brows="determined" lids="half" />
+    <Bollobo3D look={LOOKS.pimpel} position={[3.1, 0, 0.3]} rotationY={-0.25} scale={0.75} armL={2.0} armR={2.0} mouth="open" brows="up" lids="wide" lookX={-0.2} />
+  </Frame>
+);
+
+/* ------------------------------------------------------------------ */
+/* KF7 — Close-up: Vlug en Wijs (emotie in het gezicht)                 */
+/* ------------------------------------------------------------------ */
+export const KF7Closeup: React.FC = () => (
+  <Frame sky="linear-gradient(#5DBBFF, #D4F1FF 70%)" caption="Close-up · Sc. 5: Eerst kijken, dan rekenen" fog={["#D4F1FF", 25, 90]}>
+    <CameraRig position={[0.2, 2.1, 5.2]} target={[0, 1.8, 0]} fov={38} />
+    <DayLights sun={[6, 12, 10]} />
+    <Ground />
+    <BackHills />
+    <Tree position={[-6, 0, -9]} s={1.5} />
+    <Tree position={[7, 0, -11]} s={1.4} color="#4CAA3F" />
+    <Bollobo3D look={LOOKS.vlug} position={[-1.3, 0, 0]} rotationY={0.45} armL={0.3} armR={2.4} mouth="grin" brows="up" lookX={0.8} />
+    <Bollobo3D look={LOOKS.wijs} position={[1.35, 0, -0.3]} rotationY={-0.5} armL={0.3} armR={1.6} mouth="flat" brows="determined" lids="half" lookX={-0.8} />
   </Frame>
 );
