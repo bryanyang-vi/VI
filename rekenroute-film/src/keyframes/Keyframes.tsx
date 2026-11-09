@@ -33,8 +33,9 @@ const Frame: React.FC<{
   caption: string;
   children: React.ReactNode;
   overlay?: React.ReactNode;
+  figures?: React.ReactNode;
   fog?: [string, number, number];
-}> = ({ sky, caption, children, overlay, fog }) => {
+}> = ({ sky, caption, children, overlay, figures, fog }) => {
   const { width, height } = useVideoConfig();
   const ready = useFontsReady();
   return (
@@ -51,6 +52,7 @@ const Frame: React.FC<{
           {children}
         </ThreeCanvas>
       ) : null}
+      {figures}
       {overlay}
       <div
         style={{
@@ -350,10 +352,10 @@ const Bollohuis: React.FC<{ position: [number, number, number]; s?: number }> = 
   </group>
 );
 
-export const KF1Team: React.FC = () => (
-  <Frame
+export const KF1Team: React.FC<{ real?: boolean; figures?: React.ReactNode; caption?: string }> = ({ real, figures, caption }) => (
+  <Frame figures={figures}
     sky="linear-gradient(#59B9FF, #CDEFFF 70%)"
-    caption="Keyframe 1 · Sc. 4: Uitrukken op de Rekenroute"
+    caption={caption ?? "Keyframe 1 · Sc. 4: Uitrukken op de Rekenroute"}
     fog={["#CDEFFF", 40, 140]}
     overlay={
       <div style={{ position: "absolute", top: 40, width: "100%", textAlign: "center" }}>
@@ -398,9 +400,9 @@ export const KF1Team: React.FC = () => (
     <Tree position={[-11, 0, -14]} s={1.6} />
     <Tree position={[14, 0, -14]} s={1.4} color="#4CAA3F" />
     {/* de ploeg */}
-    <Bollobo3D spec={LOOKS.vlug} position={[-2.2, 0.35, 1.2]} rotationY={0.25} armR={2.7} armL={0.5} mouth="open" tilt={0.08} />
-    <Bollobo3D spec={LOOKS.wijs} position={[0.3, 0, 0.6]} rotationY={0} armL={0.4} armR={2.1} mouth="smile" brows="up" lookX={0.4} />
-    <Bollobo3D spec={LOOKS.pimpel} position={[2.3, 0.5, 1.6]} rotationY={-0.3} scale={0.75} armL={2.6} armR={2.6} mouth="grin" />
+    {!real && <Bollobo3D spec={LOOKS.vlug} position={[-2.2, 0.35, 1.2]} rotationY={0.25} armR={2.7} armL={0.5} mouth="open" tilt={0.08} />}
+    {!real && <Bollobo3D spec={LOOKS.wijs} position={[0.3, 0, 0.6]} rotationY={0} armL={0.4} armR={2.1} mouth="smile" brows="up" lookX={0.4} />}
+    {!real && <Bollobo3D spec={LOOKS.pimpel} position={[2.3, 0.5, 1.6]} rotationY={-0.3} scale={0.75} armL={2.6} armR={2.6} mouth="grin" />}
   </Frame>
 );
 
@@ -496,8 +498,8 @@ const AlarmScreen: React.FC = () => {
   );
 };
 
-export const KF2Alarm: React.FC = () => (
-  <Frame sky="#3A1E26" caption="Keyframe 2 · Sc. 2: Alarm in het Bollohuis">
+export const KF2Alarm: React.FC<{ real?: boolean; figures?: React.ReactNode; caption?: string }> = ({ real, figures, caption }) => (
+  <Frame figures={figures} sky="#3A1E26" caption={caption ?? "Keyframe 2 · Sc. 2: Alarm in het Bollohuis"}>
     <CameraRig position={[0, 2.4, 9.2]} target={[0, 2.3, -1]} fov={44} />
     <hemisphereLight args={["#FFE3C8", "#8A5A3A", 0.9]} />
     <directionalLight position={[4, 9, 8]} intensity={1.4} color="#FFE8CF" castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} />
@@ -527,9 +529,9 @@ export const KF2Alarm: React.FC = () => (
       <circleGeometry args={[1.1, 48]} />
       <meshStandardMaterial color="#8FD3FF" emissive="#6CC0F5" emissiveIntensity={0.5} />
     </mesh>
-    <Bollobo3D spec={LOOKS.vlug} position={[-2.6, 0, 1.4]} rotationY={0.35} armL={2.4} armR={2.4} mouth="o" brows="worried" lookX={0.5} lookY={0.6} />
-    <Bollobo3D spec={LOOKS.wijs} position={[0.4, 0, 0.6]} rotationY={-0.2} lean={-0.15} armL={0.6} armR={1.2} mouth="o" brows="worried" lids="wide" lookY={0.8} />
-    <Bollobo3D spec={LOOKS.pimpel} position={[2.8, 0, 1.8]} rotationY={-0.5} scale={0.75} armL={1.8} armR={1.8} mouth="o" lookY={0.7} lookX={-0.4} />
+    {!real && <Bollobo3D spec={LOOKS.vlug} position={[-2.6, 0, 1.4]} rotationY={0.35} armL={2.4} armR={2.4} mouth="o" brows="worried" lookX={0.5} lookY={0.6} />}
+    {!real && <Bollobo3D spec={LOOKS.wijs} position={[0.4, 0, 0.6]} rotationY={-0.2} lean={-0.15} armL={0.6} armR={1.2} mouth="o" brows="worried" lids="wide" lookY={0.8} />}
+    {!real && <Bollobo3D spec={LOOKS.pimpel} position={[2.8, 0, 1.8]} rotationY={-0.5} scale={0.75} armL={1.8} armR={1.8} mouth="o" lookY={0.7} lookX={-0.4} />}
   </Frame>
 );
 
@@ -549,22 +551,22 @@ const BridgeWorld: React.FC<{ planks: Plank[]; flying?: number; lightTone?: stri
   </>
 );
 
-export const KF3IkDoe: React.FC = () => (
-  <Frame sky="linear-gradient(#5DBBFF, #D4F1FF 70%)" caption="Keyframe 3 · Sc. 6: Ik doe, Wijs toont de Tipkaart" fog={["#D4F1FF", 35, 120]}>
+export const KF3IkDoe: React.FC<{ real?: boolean; figures?: React.ReactNode; caption?: string }> = ({ real, figures, caption }) => (
+  <Frame figures={figures} sky="linear-gradient(#5DBBFF, #D4F1FF 70%)" caption={caption ?? "Keyframe 3 · Sc. 6: Ik doe, Wijs toont de Tipkaart"} fog={["#D4F1FF", 35, 120]}>
     <CameraRig position={[-3.2, 2.4, 11]} target={[-1.6, 1.2, 0]} fov={44} />
     <BridgeWorld planks={["on", "on", "on", "on", "on", "on", "ghost", "ghost", "ghost", "ghost"]} />
     <TipCard position={[0.2, 3.3, 0.8]} top={10} a={6} b={4} />
-    <Bollobo3D spec={LOOKS.wijs} position={[-5.4, 0, 0.6]} rotationY={0.7} scale={0.85} armR={1.9} armL={0.3} mouth="open" lookX={0.6} lookY={0.4} />
-    <Bollobo3D spec={LOOKS.vlug} position={[-8.3, 0, 0.9]} rotationY={0.5} scale={0.85} armL={0.3} armR={0.3} mouth="o" lookX={0.7} lookY={0.6} />
-    <Bollobo3D spec={LOOKS.pimpel} position={[-6.3, 0, 2.9]} rotationY={0.35} scale={0.65} armL={1.2} armR={2.4} mouth="open" lookX={0.5} lookY={0.7} />
+    {!real && <Bollobo3D spec={LOOKS.wijs} position={[-5.4, 0, 0.6]} rotationY={0.7} scale={0.85} armR={1.9} armL={0.3} mouth="open" lookX={0.6} lookY={0.4} />}
+    {!real && <Bollobo3D spec={LOOKS.vlug} position={[-8.3, 0, 0.9]} rotationY={0.5} scale={0.85} armL={0.3} armR={0.3} mouth="o" lookX={0.7} lookY={0.6} />}
+    {!real && <Bollobo3D spec={LOOKS.pimpel} position={[-6.3, 0, 2.9]} rotationY={0.35} scale={0.65} armL={1.2} armR={2.4} mouth="open" lookX={0.5} lookY={0.7} />}
   </Frame>
 );
 
 /* ------------------------------------------------------------------ */
 /* KF4 — Rommelwind slaat toe (sc. 7)                                   */
 /* ------------------------------------------------------------------ */
-export const KF4Rommelwind: React.FC = () => (
-  <Frame sky="linear-gradient(#4FA6F0, #CBEBFF 75%)" caption="Keyframe 4 · Sc. 7: Rommelwind blaast de plankjes weg" fog={["#CBEBFF", 35, 120]}>
+export const KF4Rommelwind: React.FC<{ real?: boolean; figures?: React.ReactNode; caption?: string }> = ({ real, figures, caption }) => (
+  <Frame figures={figures} sky="linear-gradient(#4FA6F0, #CBEBFF 75%)" caption={caption ?? "Keyframe 4 · Sc. 7: Rommelwind blaast de plankjes weg"} fog={["#CBEBFF", 35, 120]}>
     <CameraRig position={[-6.5, 2.2, 12.5]} target={[-0.8, 2.2, -0.5]} fov={48} />
     <BridgeWorld planks={["on", "on", "on", "on", "on", "on", "on", "gone", "gone", "gone"]} flying={3} />
     <Rommelwind3D position={[4.2, 4.6, -1.8]} scale={1.2} rotationY={-0.7} />
@@ -575,19 +577,19 @@ export const KF4Rommelwind: React.FC = () => (
         <meshStandardMaterial color="#ffffff" transparent opacity={0.7} emissive="#ffffff" emissiveIntensity={0.4} />
       </mesh>
     ))}
-    <Bollobo3D spec={LOOKS.pimpel} position={[-4.3, 0, 1.2]} rotationY={0.6} scale={0.65} armL={0.4} armR={2.6} mouth="open" brows="worried" lookX={0.6} lookY={0.9} />
-    <Bollobo3D spec={LOOKS.vlug} position={[-5.6, 0, -0.2]} rotationY={0.5} scale={0.85} lean={-0.2} armL={2.8} armR={2.8} mouth="o" lookY={1} lookX={0.5} />
-    <Bollobo3D spec={LOOKS.wijs} position={[-7.0, 0, 1.6]} rotationY={0.6} scale={0.85} armL={0.3} armR={0.8} mouth="flat" brows="worried" lookY={0.8} lookX={0.6} />
+    {!real && <Bollobo3D spec={LOOKS.pimpel} position={[-4.3, 0, 1.2]} rotationY={0.6} scale={0.65} armL={0.4} armR={2.6} mouth="open" brows="worried" lookX={0.6} lookY={0.9} />}
+    {!real && <Bollobo3D spec={LOOKS.vlug} position={[-5.6, 0, -0.2]} rotationY={0.5} scale={0.85} lean={-0.2} armL={2.8} armR={2.8} mouth="o" lookY={1} lookX={0.5} />}
+    {!real && <Bollobo3D spec={LOOKS.wijs} position={[-7.0, 0, 1.6]} rotationY={0.6} scale={0.85} armL={0.3} armR={0.8} mouth="flat" brows="worried" lookY={0.8} lookX={0.6} />}
   </Frame>
 );
 
 /* ------------------------------------------------------------------ */
 /* KF5 — Wij doen: Vlug vergist zich, "Wat denk jij?" (sc. 8)           */
 /* ------------------------------------------------------------------ */
-export const KF5WijDoen: React.FC = () => (
-  <Frame
+export const KF5WijDoen: React.FC<{ real?: boolean; figures?: React.ReactNode; caption?: string }> = ({ real, figures, caption }) => (
+  <Frame figures={figures}
     sky="linear-gradient(#5DBBFF, #D4F1FF 70%)"
-    caption="Keyframe 5 · Sc. 8: Wij doen, Vlug vergist zich"
+    caption={caption ?? "Keyframe 5 · Sc. 8: Wij doen, Vlug vergist zich"}
     fog={["#D4F1FF", 35, 120]}
     overlay={
       <>
@@ -601,9 +603,9 @@ export const KF5WijDoen: React.FC = () => (
     <CameraRig position={[1.5, 0.6, 10.5]} target={[0.6, -0.4, 0]} fov={44} />
     <BridgeWorld planks={["on", "on", "on", "on", "on", "on", "on", "on", "on", "tilted"]} />
     {/* Vlug hangt onder de brug aan één arm */}
-    <Bollobo3D spec={LOOKS.vlug} position={[3.6, -2.75, 0.9]} rotationY={-0.2} tilt={0.15} scale={0.85} armR={3.0} armL={0.9} mouth="o" brows="worried" lookY={0.4} lookX={-0.6} />
-    <Bollobo3D spec={LOOKS.wijs} position={[1.4, 0.08, 0.2]} rotationY={0.3} lean={0.25} scale={0.85} armR={1.4} armL={0.3} mouth="flat" lookY={-0.9} lookX={0.6} />
-    <Bollobo3D spec={LOOKS.pimpel} position={[-0.3, 0.08, 0.6]} rotationY={0.15} scale={0.65} armL={0.3} armR={2.3} mouth="o" lookX={-1} lookY={0.2} />
+    {!real && <Bollobo3D spec={LOOKS.vlug} position={[3.6, -2.75, 0.9]} rotationY={-0.2} tilt={0.15} scale={0.85} armR={3.0} armL={0.9} mouth="o" brows="worried" lookY={0.4} lookX={-0.6} />}
+    {!real && <Bollobo3D spec={LOOKS.wijs} position={[1.4, 0.08, 0.2]} rotationY={0.3} lean={0.25} scale={0.85} armR={1.4} armL={0.3} mouth="flat" lookY={-0.9} lookX={0.6} />}
+    {!real && <Bollobo3D spec={LOOKS.pimpel} position={[-0.3, 0.08, 0.6]} rotationY={0.15} scale={0.65} armL={0.3} armR={2.3} mouth="o" lookX={-1} lookY={0.2} />}
   </Frame>
 );
 
@@ -638,10 +640,10 @@ const Lantern: React.FC<{ position: [number, number, number]; color: string; lit
   </group>
 );
 
-export const KF6JijDoet: React.FC = () => (
-  <Frame
+export const KF6JijDoet: React.FC<{ real?: boolean; figures?: React.ReactNode; caption?: string }> = ({ real, figures, caption }) => (
+  <Frame figures={figures}
     sky="linear-gradient(#1C2257, #5B3E8C 55%, #F28A5B)"
-    caption="Keyframe 6 · Sc. 10: Jij doet, de lampionnen van Tiendorp"
+    caption={caption ?? "Keyframe 6 · Sc. 10: Jij doet, de lampionnen van Tiendorp"}
     overlay={
       <Banner bg="#5B3E8C">
         2 + <Q>?</Q> = 10
@@ -681,9 +683,9 @@ export const KF6JijDoet: React.FC = () => (
       const col = i % 5;
       return <Lantern key={i} position={[-3.2 + col * 1.6, row === 0 ? 4.9 : 3.5, -1.5]} color={LANTERN_COLORS[col]} lit={i < 2} />;
     })}
-    <Bollobo3D spec={LOOKS.vlug} position={[-2.8, 0, 2.2]} rotationY={0.3} lean={-0.3} scale={0.85} armL={0.3} armR={1.0} mouth="o" lookY={1} />
-    <Bollobo3D spec={LOOKS.wijs} position={[0, 0, 2.8]} rotationY={0} lean={-0.25} scale={0.85} armL={0.4} armR={1.9} mouth="smile" lookY={1} />
-    <Bollobo3D spec={LOOKS.pimpel} position={[2.6, 0, 2.4]} rotationY={-0.3} lean={-0.35} scale={0.65} armL={2.5} armR={2.5} mouth="open" lookY={1} />
+    {!real && <Bollobo3D spec={LOOKS.vlug} position={[-2.8, 0, 2.2]} rotationY={0.3} lean={-0.3} scale={0.85} armL={0.3} armR={1.0} mouth="o" lookY={1} />}
+    {!real && <Bollobo3D spec={LOOKS.wijs} position={[0, 0, 2.8]} rotationY={0} lean={-0.25} scale={0.85} armL={0.4} armR={1.9} mouth="smile" lookY={1} />}
+    {!real && <Bollobo3D spec={LOOKS.pimpel} position={[2.6, 0, 2.4]} rotationY={-0.3} lean={-0.35} scale={0.65} armL={2.5} armR={2.5} mouth="open" lookY={1} />}
   </Frame>
 );
 
@@ -697,8 +699,8 @@ const NameTag: React.FC<{ left: string; name: string; role: string; color: strin
   </div>
 );
 
-export const KF0Personages: React.FC = () => (
-  <Frame
+export const KF0Personages: React.FC<{ real?: boolean; figures?: React.ReactNode; caption?: string }> = ({ real, figures, caption }) => (
+  <Frame figures={figures}
     sky="radial-gradient(circle at 50% 40%, #FFFFFF, #DCEBFF 70%)"
     caption="Personageblad · de Bollobo's van de eerste graad + kleuterbollobo (werknamen)"
     overlay={
@@ -718,24 +720,24 @@ export const KF0Personages: React.FC = () => (
       <circleGeometry args={[9, 64]} />
       <shadowMaterial opacity={0.18} />
     </mesh>
-    <Bollobo3D spec={LOOKS.vlug} position={[-3.3, 0, 0]} rotationY={0.25} armL={0.4} armR={2.5} mouth="grin" brows="up" lookX={0.2} />
-    <Bollobo3D spec={LOOKS.wijs} position={[0, 0, -0.4]} rotationY={0} armL={0.3} armR={1.3} mouth="smile" brows="determined" lids="half" />
-    <Bollobo3D spec={LOOKS.pimpel} position={[3.1, 0, 0.3]} rotationY={-0.25} scale={0.75} armL={2.0} armR={2.0} mouth="open" brows="up" lids="wide" lookX={-0.2} />
+    {!real && <Bollobo3D spec={LOOKS.vlug} position={[-3.3, 0, 0]} rotationY={0.25} armL={0.4} armR={2.5} mouth="grin" brows="up" lookX={0.2} />}
+    {!real && <Bollobo3D spec={LOOKS.wijs} position={[0, 0, -0.4]} rotationY={0} armL={0.3} armR={1.3} mouth="smile" brows="determined" lids="half" />}
+    {!real && <Bollobo3D spec={LOOKS.pimpel} position={[3.1, 0, 0.3]} rotationY={-0.25} scale={0.75} armL={2.0} armR={2.0} mouth="open" brows="up" lids="wide" lookX={-0.2} />}
   </Frame>
 );
 
 /* ------------------------------------------------------------------ */
 /* KF7 — Close-up: Vlug en Wijs (emotie in het gezicht)                 */
 /* ------------------------------------------------------------------ */
-export const KF7Closeup: React.FC = () => (
-  <Frame sky="linear-gradient(#5DBBFF, #D4F1FF 70%)" caption="Close-up · Sc. 5: Eerst kijken, dan rekenen" fog={["#D4F1FF", 25, 90]}>
+export const KF7Closeup: React.FC<{ real?: boolean; figures?: React.ReactNode; caption?: string }> = ({ real, figures, caption }) => (
+  <Frame figures={figures} sky="linear-gradient(#5DBBFF, #D4F1FF 70%)" caption="Close-up · Sc. 5: Eerst kijken, dan rekenen" fog={["#D4F1FF", 25, 90]}>
     <CameraRig position={[0.2, 2.25, 4.4]} target={[0, 2.0, 0]} fov={38} />
     <DayLights sun={[6, 12, 10]} />
     <Ground />
     <BackHills />
     <Tree position={[-6, 0, -9]} s={1.5} />
     <Tree position={[7, 0, -11]} s={1.4} color="#4CAA3F" />
-    <Bollobo3D spec={LOOKS.vlug} position={[-1.3, 0, 0]} rotationY={0.45} armL={0.3} armR={2.4} mouth="grin" brows="up" lookX={0.8} />
-    <Bollobo3D spec={LOOKS.wijs} position={[1.35, 0, -0.3]} rotationY={-0.5} armL={0.3} armR={1.6} mouth="flat" brows="determined" lids="half" lookX={-0.8} />
+    {!real && <Bollobo3D spec={LOOKS.vlug} position={[-1.3, 0, 0]} rotationY={0.45} armL={0.3} armR={2.4} mouth="grin" brows="up" lookX={0.8} />}
+    {!real && <Bollobo3D spec={LOOKS.wijs} position={[1.35, 0, -0.3]} rotationY={-0.5} armL={0.3} armR={1.6} mouth="flat" brows="determined" lids="half" lookX={-0.8} />}
   </Frame>
 );

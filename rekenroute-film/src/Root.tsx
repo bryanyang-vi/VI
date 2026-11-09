@@ -1,6 +1,7 @@
 import { Composition } from "remotion";
 import { EPISODE_DURATION, Episode } from "./Episode";
 import { FPS } from "./theme";
+import { R0Ploeg, R1Team, R3IkDoe, R4Rommelwind, R5WijDoen, R6JijDoet } from "./keyframes/RealKeyframes";
 import {
   KF0Personages,
   KF7Closeup,
@@ -13,6 +14,12 @@ import {
 } from "./keyframes/Keyframes";
 
 const KEYFRAMES = [
+  { id: "Echt-0-Ploeg", component: R0Ploeg },
+  { id: "Echt-1-Team", component: R1Team },
+  { id: "Echt-3-IkDoe", component: R3IkDoe },
+  { id: "Echt-4-Rommelwind", component: R4Rommelwind },
+  { id: "Echt-5-WijDoen", component: R5WijDoen },
+  { id: "Echt-6-JijDoet", component: R6JijDoet },
   { id: "KF0-Personages", component: KF0Personages },
   { id: "KF7-Closeup", component: KF7Closeup },
   { id: "KF1-Team", component: KF1Team },
